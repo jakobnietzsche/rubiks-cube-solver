@@ -10,12 +10,10 @@ import availableMoves.*;
 import goals.*;
 import model.RubiksCubeDefinitions.Move;
 import model.RubiksCubeModel;
-import model.RubiksCubeMover;
 
 public class CubeSolver {
 	Random rand;
 	RubiksCubeModel model;
-	RubiksCubeMover mover;
 	G3CornerGoalPermute permutes;
 	IterativeDeepening searcher;
 	Map<Goal, AvailableMoves> goalMap;
@@ -25,13 +23,19 @@ public class CubeSolver {
 	public CubeSolver(RubiksCubeModel model) {
 		this.rand = new Random();
 		this.model = model;
-		this.mover = new RubiksCubeMover();
 		this.permutes = new G3CornerGoalPermute();
 		this.searcher = new IterativeDeepening();
 		this.goalMap = new HashMap<>();
 		this.goalList = new LinkedList<>();
 		this.goalMoves = new LinkedList<>();
+		initializeDatabase();
 		initialize();
+	}
+	
+	private void initializeDatabase() {
+		System.out.println("Initializing database...");
+		this.searcher.findGoal(this.permutes, model, new G3AvailableMoves());
+		System.out.println("Finished initializing database.");
 	}
 	
 	private void initialize() {
@@ -70,7 +74,7 @@ public class CubeSolver {
 		}
 		
 		for (Move move: moves) {
-			this.model = this.mover.move(move, model);
+			this.model.move(move);
 		}
 	}
 	
@@ -79,6 +83,8 @@ public class CubeSolver {
 	
 		for (int i = 0; i < goalList.size(); i++) {
 			Goal currGoal = goalList.get(i);
+			System.out.println("CURR GOAL: " + currGoal.getClass().getName());
+			System.out.println("CURR MOVES: " + goalMap.get(currGoal));
 			System.out.println("GOAL STEP: " + i);
 			goalMoves = this.searcher.findGoal(currGoal, model, goalMap.get(currGoal));
 			this.processGoalMoves(currGoal, i+1, allMoves);
@@ -94,7 +100,7 @@ public class CubeSolver {
 		allMoves.addAll(goalMoves);
 		
 		for (Move move: goalMoves) {
-			model = mover.move(move, model);
+			this.model.move(move);
 		}
 		goalMoves.clear();
 	}

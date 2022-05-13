@@ -1,165 +1,243 @@
 package model;
 
-import model.RubiksCubeDefinitions.*;
+import model.RubiksCubeDefinitions.Move;
 
 public class RubiksCubeMover {
-	public RubiksCubeModel move(Move m, RubiksCubeModel model) {
+	private RubiksCubeModel model;
+	
+	public RubiksCubeMover(RubiksCubeModel model) {
+		this.model = model;
+	}
+	
+	public void move(Move m) {
 		switch(m) {
 		case L:
-			return model.l();
+			model.l();
+			break;
 		case LPRIME:
-			return model.lPrime();
+			model.lPrime();
+			break;
 		case L2:
-			return model.l2();
+			model.l2();
+			break;
 		case R:
-			return model.r();
+			model.r();
+			break;
 		case RPRIME:
-			return model.rPrime();
+			model.rPrime();
+			break;
 		case R2:
-			return model.r2();
+			model.r2();
+			break;
 		case U:
-			return model.u();
+			model.u();
+			break;
 		case UPRIME:
-			return model.uPrime();
+			model.uPrime();
+			break;
 		case U2:
-			return model.u2();
+			model.u2();
+			break;
 		case D:
-			return model.d();
+			model.d();
+			break;
 		case DPRIME:
-			return model.dPrime();
+			model.dPrime();
+			break;
 		case D2:
-			return model.d2();
+			model.d2();
+			break;
 		case F:
-			return model.f();
+			model.f();
+			break;
 		case FPRIME:
-			return model.fPrime();
+			model.fPrime();
+			break;
 		case F2:
-			return model.f2();
+			model.f2();
+			break;
 		case B:
-			return model.b();
+			model.b();
+			break;
 		case BPRIME:
-			return model.bPrime();
+			model.bPrime();
+			break;
 		case B2:
-			return model.b2();
+			model.b2();
+			break;
 		case X:
-			return model.xAxis();
+			model.xAxis();
+			break;
 		case XPRIME:
-			return model.xAxisPrime();
+			model.xAxisPrime();
+			break;
 		case X2:
-			return model.xAxis2();
+			model.xAxis2();
+			break;
 		case Y:
-			return model.yAxis();
+			model.yAxis();
+			break;
 		case YPRIME:
-			return model.yAxisPrime();
+			model.yAxisPrime();
+			break;
 		case Y2:
-			return model.yAxis2();
+			model.yAxis2();
+			break;
 		case Z:
-			return model.zAxis();
+			model.zAxis();
+			break;
 		case ZPRIME:
-			return model.zAxisPrime();
+			model.zAxisPrime();
+			break;
 		case Z2:
-			return model.zAxis2();
+			model.zAxis2();
+			break;
 		case MID:
-			return model.mid();
+			model.mid();
+			break;
 		case MIDPRIME:
-			return model.midPrime();
+			model.midPrime();
+			break;
 		case MID2:
-			return model.mid2();
+			model.mid2();
+			break;
 		case STAND:
-			return model.stand();
+			model.stand();
+			break;
 		case STANDPRIME:
-			return model.standPrime();
+			model.standPrime();
+			break;
 		case STAND2:
-			return model.stand2();
+			model.stand2();
+			break;
 		case EQUATORIAL:
-			return model.equatorial();
+			model.equatorial();
+			break;
 		case EQUATORIALPRIME:
-			return model.equatorialPrime();
+			model.equatorialPrime();
+			break;
 		case EQUATORIAL2:
-			return model.equatorial2();
+			model.equatorial2();
+			break;
 		default:
-			System.out.println("Error: Incorrect. Please try again.");
-			return model;
+			System.out.println("Error: The move " + m + " is incorrect. Please try again.");
+			break;
 		}
 	}
 	
-	public RubiksCubeModel invert(Move m, RubiksCubeModel model) {
+	public void invert(Move m) {
 		switch(m) {
 		  case L:
-	        return model.lPrime();
+	        model.lPrime();
+	        break;
 	      case LPRIME:
-	        return model.l();
+	        model.l();
+	        break;
 	      case L2:
-	        return model.l2();
+	        model.l2();
+	        break;
 	      case R:
-	        return model.rPrime();
+	        model.rPrime();
+	        break;
 	      case RPRIME:
-	        return model.r();
+	        model.r();
+	        break;
 	      case R2:
-	        return model.r2();
+	        model.r2();
+	        break;
 	      case U:
-	        return model.uPrime();
+	        model.uPrime();
+	        break;
 	      case UPRIME:
-	        return model.u();
+	        model.u();
+	        break;
 	      case U2:
-	        return model.u2();
+	        model.u2();
+	        break;
 	      case D:
-	        return model.dPrime();
+	        model.dPrime();
+	        break;
 	      case DPRIME:
-	        return model.d();
+	        model.d();
+	        break;
 	      case D2:
-	        return model.d2();
+	        model.d2();
+	        break;
 	      case F:
-	        return model.fPrime();
+	        model.fPrime();
+	        break;
 	      case FPRIME:
-	        return model.f();
+	        model.f();
+	        break;
 	      case F2:
-	        return model.f2();
+	        model.f2();
+	        break;
 	      case B:
-	        return model.bPrime();
+	        model.bPrime();
+	        break;
 	      case BPRIME:
-	        return model.b();
+	        model.b();
+	        break;
 	      case B2:
-	        return model.b2();
+	        model.b2();
+	        break;
 	      case Y:
-	        return model.yAxisPrime();
+	        model.yAxisPrime();
+	        break;
 	      case YPRIME:
-	        return model.yAxis();
+	        model.yAxis();
+	        break;
 	      case Y2:
-	        return model.yAxis2();
+	        model.yAxis2();
+	        break;
 	      case X:
-	        return model.xAxisPrime();
+	        model.xAxisPrime();
+	        break;
 	      case XPRIME:
-	        return model.xAxis();
+	        model.xAxis();
+	        break;
 	      case X2:
-	        return model.xAxis2();
+	        model.xAxis2();
+	        break;
 	      case Z:
-	        return model.zAxisPrime();
+	        model.zAxisPrime();
+	        break;
 	      case ZPRIME:
-	        return model.zAxis();
+	        model.zAxis();
+	        break;
 	      case Z2:
-	        return model.zAxis2();
+	        model.zAxis2();
+	        break;
 	      case MID:
-	        return model.midPrime();
+	        model.midPrime();
+	        break;
 	      case MIDPRIME:
-	        return model.mid();
+	        model.mid();
+	        break;
 	      case MID2:
-	        return model.mid2();
+	        model.mid2();
+	        break;
 	      case EQUATORIAL:
-	        return model.equatorialPrime();
+	        model.equatorialPrime();
+	        break;
 	      case EQUATORIALPRIME:
-	        return model.equatorial();
+	        model.equatorial();
+	        break;
 	      case EQUATORIAL2:
-	        return model.equatorial2();
+	        model.equatorial2();
+	        break;
 	      case STAND:
-	        return model.standPrime();
+	        model.standPrime();
+	        break;
 	      case STANDPRIME:
-	        return model.stand();
+	        model.stand();
+	        break;
 	      case STAND2:
-	        return model.stand2();
+	        model.stand2();
+	        break;
 	      default:
-	        System.out.println("Error: Incorrect. Please try again.");
-	        return model;
+	    	  System.out.println("Error: The invert " + m + " is incorrect. Please try again.");
+	    	  break;
 		}
 	}
 }

@@ -3,10 +3,10 @@ package controller;
 import model.RubiksCubeDefinitions.Move;
 
 public class MovePruner {
-	public boolean prune(Move move, Move[] moves) {
+	public boolean prune(String move, String[] moves) {
 		if (moves.length == 0) return false;
-		String lastMove = moves[moves.length-1].name();
-		return this.prune(move.name(), lastMove);
+		String lastMove = moves[moves.length-1];
+		return this.prune(move, lastMove);
 	}
 	
 	public boolean prune(String move, String lastMove) {

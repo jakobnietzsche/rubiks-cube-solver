@@ -20,7 +20,7 @@ public class IterativeDeepening {
 		List<Integer> moveInds = new LinkedList<>();
 		
 		while (!findGoal(goal, cube, moves, 0, maxDepth, moveInds)) {
-			maxDepth++;
+			++maxDepth;
 		}
 		
 		return convertMoves(moveInds, moves);
@@ -30,9 +30,9 @@ public class IterativeDeepening {
 							 int depth, int maxDepth, List<Integer> moveInds) {
 		boolean solved = false;
 		int numMoves = moves.getNumMoves();
+		
 		if (depth == maxDepth) {
-			//goal.index(cube, depth);
-			System.out.println(numMoves);
+			goal.index(cube, depth);
 			return goal.isCompleted(cube);
 		}
 		

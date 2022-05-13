@@ -18,29 +18,29 @@ public class G3CornerGoalPermute extends Goal {
 	public String permStringGenerator(RubiksCubeModel cube) {		
 		sb.setLength(0);
 		
-        sb.append(cube.getColor(Face.UP.mapping,    0, 0));
-        sb.append(cube.getColor(Face.LEFT.mapping,  0, 0));
+        sb.append(cube.getColor(Face.UP,    0, 0));
+        sb.append(cube.getColor(Face.LEFT,  0, 0));
 
-        sb.append(cube.getColor(Face.UP.mapping,    2, 0));
-        sb.append(cube.getColor(Face.LEFT.mapping,  0, 2));
+        sb.append(cube.getColor(Face.UP,    2, 0));
+        sb.append(cube.getColor(Face.LEFT,  0, 2));
 
-        sb.append(cube.getColor(Face.UP.mapping,    0, 2));
-        sb.append(cube.getColor(Face.RIGHT.mapping, 0, 2));
+        sb.append(cube.getColor(Face.UP,    0, 2));
+        sb.append(cube.getColor(Face.RIGHT, 0, 2));
 
-        sb.append(cube.getColor(Face.UP.mapping,    2, 2));
-        sb.append(cube.getColor(Face.RIGHT.mapping, 0, 0));
+        sb.append(cube.getColor(Face.UP,    2, 2));
+        sb.append(cube.getColor(Face.RIGHT, 0, 0));
 
-        sb.append(cube.getColor(Face.DOWN.mapping,  2, 0));
-        sb.append(cube.getColor(Face.LEFT.mapping,  2, 0));
+        sb.append(cube.getColor(Face.DOWN,  2, 0));
+        sb.append(cube.getColor(Face.LEFT,  2, 0));
 
-        sb.append(cube.getColor(Face.DOWN.mapping,  0, 0));
-        sb.append(cube.getColor(Face.LEFT.mapping,  2, 2));
+        sb.append(cube.getColor(Face.DOWN,  0, 0));
+        sb.append(cube.getColor(Face.LEFT,  2, 2));
 
-        sb.append(cube.getColor(Face.DOWN.mapping,  2, 2));
-        sb.append(cube.getColor(Face.RIGHT.mapping, 2, 2));
+        sb.append(cube.getColor(Face.DOWN,  2, 2));
+        sb.append(cube.getColor(Face.RIGHT, 2, 2));
 
-        sb.append(cube.getColor(Face.DOWN.mapping,  0, 2));
-        sb.append(cube.getColor(Face.RIGHT.mapping, 2, 0));
+        sb.append(cube.getColor(Face.DOWN,  0, 2));
+        sb.append(cube.getColor(Face.RIGHT, 2, 0));
         
 		return sb.toString();
 	}
@@ -48,7 +48,7 @@ public class G3CornerGoalPermute extends Goal {
 	public boolean isCompleted(RubiksCubeModel cube) {
 		String perm = permStringGenerator(cube);
 		
-		if (perms.get(perm) == null) {
+		if (!perms.containsKey(perm)) {
 			perms.put(perm, true);
 			if (perms.size() == 96) return true;
 		}

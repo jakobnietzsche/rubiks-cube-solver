@@ -6,6 +6,7 @@ import model.RubiksCubeDefinitions.*;
 public class RubiksCubeModel {
 	Color[] cube;
 	Color[] centers;
+	RubiksCubeMover mover;
 	private static ByteBuffer bb = ByteBuffer.allocate(Long.BYTES);
 	private static byte[] bytes = new byte[8];
 	private static final byte HASH = 1;
@@ -22,6 +23,7 @@ public class RubiksCubeModel {
 	public RubiksCubeModel() {
 		this.cube = new Color[48];
 		this.centers = new Color[6];
+		this.mover = new RubiksCubeMover(this);
 		initializeCube();
 	}
 	
@@ -43,24 +45,32 @@ public class RubiksCubeModel {
 		}
 	}
 	
+	public void move(Move m) {
+		this.mover.move(m);
+	}
+	
+	public void invert(Move m) {
+		this.mover.invert(m);
+	}
+	
 	public void roll90(int face) {
 		for (int i = 0; i < 8; i++) {
-			bytes[i] = cube[face+i].mapping;
+			bytes[i] = cube[face*8+i].mapping;
 		}
-
+		
 		bb.put(bytes, 0, bytes.length);
 		bb.putLong(0, rotateRight(bb.getLong(0), 16));
 		bytes = bb.array();
 
 		for (int i = 0; i < 8; i++) {
-			cube[face+i] = colorMap.get(bytes[i]);
+			cube[face*8+i] = colorMap.get(bytes[i]);
 		}
 		bb.clear();
 	}
 	
 	public void roll180(int face) {
 		for (int i = 0; i < 8; i++) {
-			bytes[i] = cube[face+i].mapping;
+			bytes[i] = cube[face*8+i].mapping;
 		}
 		
 		bb.put(bytes, 0, bytes.length);
@@ -68,14 +78,14 @@ public class RubiksCubeModel {
 		bytes = bb.array();
 		
 		for (int i = 0; i < 8; i++) {
-			cube[face+i] = colorMap.get(bytes[i]);
+			cube[face*8+i] = colorMap.get(bytes[i]);
 		}
 		bb.clear();
 	}
 	
 	public void roll270(int face) {
 		for (int i = 0; i < 8; i++) {
-			bytes[i] = cube[face+i].mapping;
+			bytes[i] = cube[face*8+i].mapping;
 		}
 		
 		bb.put(bytes, 0, bytes.length);
@@ -83,32 +93,51 @@ public class RubiksCubeModel {
 		bytes = bb.array();
 		
 		for (int i = 0; i < 8; i++) {
-			cube[face+i] = colorMap.get(bytes[i]);
+			cube[face*8+i] = colorMap.get(bytes[i]);
 		}
 		bb.clear();
 	}
 	
 	public void rotateSides90(int si0, int si1, int si2, int si3,
 			                  int si4, int si5, int si6, int si7) {
-		Color temp = cube[si0];
-		cube[si0] = cube[si1];
-		cube[si1] = cube[si2];
-		cube[si2] = cube[si3];
-		cube[si3] = temp;
+		Color[] temp = new Color[] {cube[si0], cube[si0+1]};
+		cube[si0] = cube[si1]; cube[si0+1] = cube[si1+1];
+		cube[si1] = cube[si2]; cube[si1+1] = cube[si2+1];
+		cube[si2] = cube[si3]; cube[si2+1] = cube[si3+1];
+		cube[si3] = temp[0];   cube[si3+1] = temp[1];   
 		
-		temp = cube[si4];
+		Color tempColor = cube[si4];
 		cube[si4] = cube[si5];
 		cube[si5] = cube[si6];
 		cube[si6] = cube[si7];
-		cube[si7] = temp;
+		cube[si7] = tempColor;
 	}
 	
-	public void rotateSides180(int si0, int si1, int si2, int si3,
-                               int si4, int si5, int si6, int si7) {
-		swap(si0, si1);
-		swap(si2, si3);
-		swap(si4, si5);
-		swap(si6, si7);
+	public void rotateSides180(int i0, int i1, int i2, int i3,
+                               int i4, int i5, int i6, int i7) {
+		
+		/*
+		Color[] tempArr = new Color[] {cube[i0], cube[i0+1]};
+		cube[i0] = cube[i1]; cube[i0+1] = cube[i1+1];
+		cube[i1] = tempArr[0];  cube[i1+1] = tempArr[1];
+		
+		tempArr = new Color[] {cube[i2], cube[i2+1]};
+		cube[i2] = cube[i3]; cube[i2+1] = cube[i3+1];
+		cube[i3] = tempArr[0];  cube[i3+1] = tempArr[1];
+		
+		Color temp = cube[i4];
+		cube[i4] = cube[i5];
+		cube[i5] = temp;
+		
+		temp = cube[i6];
+		cube[i6] = cube[i7];
+		cube[i7] = temp;
+		*/
+		swapShort(i0, i1);
+		swapShort(i2, i3);
+		
+		swapByte(i4, i5);
+		swapByte(i6, i7);
 	}
 	
 	public void rollSlice90(
@@ -139,22 +168,22 @@ public class RubiksCubeModel {
 			int fi0, int fi1, int fi2, int fi3,
 			int fi4, int fi5, int fi6, int fi7,
 			int ci0, int ci1, int ci2, int ci3) {
-		swap(fi0, fi1);
-		swap(fi2, fi3);
-		swap(fi4, fi5);
-		swap(fi6, fi7);
+		swapByte(fi0, fi1);
+		swapByte(fi2, fi3);
+		swapByte(fi4, fi5);
+		swapByte(fi6, fi7);
 		
 		swapC(ci0, ci1);
 		swapC(ci2, ci3);
 	}
 	
-	public Color getColor (int face, int row, int col) {
+	public Color getColor (Face face, int row, int col) {
 		if (row == 1 && col == 1) {
-			return centers[face];
+			return centers[face.mapping];
 		} else {
 			int[] unfoldedFace = new int[] {0, 1, 2, 7, 0, 3, 6, 5, 4};
 			int index = unfoldedFace[row * 3 + col];
-			return cube[face * 8 + index];
+			return cube[face.mapping * 8 + index];
 		}
 	}
 	
@@ -175,12 +204,12 @@ public class RubiksCubeModel {
 	}
 	
 	public boolean isSolved() {
-		return Long.toHexString(getFace(Face.UP)).equals("0") &&
-			   Long.toHexString(getFace(Face.LEFT)).equals("100000000000000") &&
-			   Long.toHexString(getFace(Face.FRONT)).equals("200000000000000") &&
-			   Long.toHexString(getFace(Face.RIGHT)).equals("300000000000000") &&
-			   Long.toHexString(getFace(Face.BACK)).equals("400000000000000") &&
-			   Long.toHexString(getFace(Face.DOWN)).equals("500000000000000");
+		return Long.toHexString(getFace(Face.FRONT)).equals("4040404040404")   &&
+			   Long.toHexString(getFace(Face.RIGHT)).equals("104040404040404") &&
+			   Long.toHexString(getFace(Face.UP)).equals("204040404040404")    &&
+			   Long.toHexString(getFace(Face.LEFT)).equals("304040404040404")  &&
+			   Long.toHexString(getFace(Face.DOWN)).equals("404040404040404")  &&
+			   Long.toHexString(getFace(Face.BACK)).equals("504040404040404");
 	}
 	
 	public byte getCornerIndex(Color[] corners) {
@@ -426,7 +455,7 @@ public class RubiksCubeModel {
 	}
 	
 	public RubiksCubeModel stand2() {
-		this.rollSlice90(3, 47, 9, 29, 7, 43, 13, 25, 0, 5, 1, 3);
+		this.rollSlice180(3, 47, 9, 29, 7, 43, 13, 25, 0, 5, 1, 3);
 		return this;
 	}
 	
@@ -466,7 +495,16 @@ public class RubiksCubeModel {
 		return this.zAxis().zAxis();
 	}
 	
-	private void swap(int i1, int i2) {
+	private void swapShort(int i1, int i2) {
+		Color temp = cube[i1];
+		cube[i1] = cube[i2];
+		cube[i2] = temp;
+		temp = cube[i1+1];
+		cube[i1+1] = cube[i2+1];
+		cube[i2+1] = temp;
+	}
+	
+	private void swapByte(int i1, int i2) {
 		Color temp = cube[i1];
 		cube[i1] = cube[i2];
 		cube[i2] = temp;
