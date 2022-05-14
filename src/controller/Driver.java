@@ -11,8 +11,5 @@ public class Driver {
 		testSolver.scrambleCube();
 		testSolver.solveCube();
 		
-		
-		System.out.println(testModel.isSolved());
-		testModel.displayCube();
 	}
 }

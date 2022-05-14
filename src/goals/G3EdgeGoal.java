@@ -1,5 +1,6 @@
 package goals;
 
+import availableMoves.G2AvailableMoves;
 import model.RubiksCubeDefinitions.Color;
 import model.RubiksCubeDefinitions.Face;
 import model.RubiksCubeModel;
@@ -7,7 +8,8 @@ import model.RubiksCubeModel;
 public class G3EdgeGoal extends Goal {
 	G3CornerGoalPermute perms;
 	
-	public G3EdgeGoal(G3CornerGoalPermute perms) {
+	public G3EdgeGoal(G3CornerGoalPermute perms, G2AvailableMoves availableMoves) {
+		super(availableMoves);
 		this.perms = perms;
 	}
 	
@@ -45,6 +47,10 @@ public class G3EdgeGoal extends Goal {
 		        (FL == Color.WHITE || FL == Color.YELLOW) && (LF == Color.BLUE || LF == Color.GREEN)  &&
 		        (BR == Color.WHITE || BR == Color.YELLOW) && (RB == Color.BLUE || RB == Color.GREEN)  &&
 		        (FR == Color.WHITE || FR == Color.YELLOW) && (RF == Color.BLUE || RF == Color.GREEN);
-	    
+	}
+	
+	public void displaySuccess() {
+		System.out.println("Goal G3 has been reached. The cube will now only use the following moves: L2, R2, U2, D2, F2, B2");
+		System.out.println();
 	}
 }

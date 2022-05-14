@@ -52,39 +52,6 @@ public class IterativeDeepening {
 		return solved;
 	}
 	
-/*
-	public List<Move> doIDDFS(AvailableMoves availableMoves, Goal goal, RubiksCubeModel cube) {
-		List<Move> moveList = new LinkedList<>();
-		int searchDepth = 1;
-		while(!doDFS(goal, searchDepth, moveList, availableMoves, null, cube)) {
-			++searchDepth;
-		}
-		return moveList;
-	}
-	
-	private boolean doDFS(Goal goal, int searchDepth, List<Move> moveList, 
-						  AvailableMoves availableMoves, Move lastMove, RubiksCubeModel cube) {
-		if (searchDepth == 0) return false;
-		
-		for (Move m: availableMoves.getMoves()) {
-			if (pruner.prune(m, lastMove)) continue;
-			
-			cube.move(m);
-			
-			if (goal.isCompleted(cube)) {
-				moveList.add(0, m);
-				return true;
-			}
-			
-			if (doDFS(goal, searchDepth-1, moveList, availableMoves, m, cube)) {
-				moveList.add(0, m);
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
-	
 	private List<Move> convertMoves(List<Integer> moveInds, AvailableMoves availableMoves) {
 		List<Move> moves = new LinkedList<>();
 		

@@ -1,10 +1,16 @@
 package goals;
 
+import availableMoves.G1AvailableMoves;
 import model.RubiksCubeDefinitions.Color;
 import model.RubiksCubeDefinitions.Face;
 import model.RubiksCubeModel;
 
 public class G2Goal extends Goal {
+	
+	public G2Goal(G1AvailableMoves availableMoves) {
+		super(availableMoves);
+	}
+	
 	public boolean isCompleted(RubiksCubeModel cube) {
 	    Color LUB = cube.getColor(Face.LEFT, 0, 0);
 	    Color LUF = cube.getColor(Face.LEFT, 0, 2);
@@ -53,6 +59,11 @@ public class G2Goal extends Goal {
 
     	      	(DB == Color.RED   || DB == Color.ORANGE)  &&
     	      	(BD == Color.WHITE || BD == Color.YELLOW);
+	}
+	
+	public void displaySuccess() {
+		System.out.println("Goal G2 has been reached. The cube will now only use the following moves: L, L', L2, R, R', R2, U2, D2, F2, B2");
+		System.out.println();
 	}
 
 }

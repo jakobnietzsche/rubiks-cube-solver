@@ -59,4 +59,6 @@ public class G3CornerGoalPermute extends Goal {
 		String perm = permStringGenerator(cube);
 		return perms.containsKey(perm);
 	}
+	
+	public void displaySuccess() {}
 }
