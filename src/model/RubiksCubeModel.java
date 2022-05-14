@@ -116,23 +116,6 @@ public class RubiksCubeModel {
 	public void rotateSides180(int i0, int i1, int i2, int i3,
                                int i4, int i5, int i6, int i7) {
 		
-		/*
-		Color[] tempArr = new Color[] {cube[i0], cube[i0+1]};
-		cube[i0] = cube[i1]; cube[i0+1] = cube[i1+1];
-		cube[i1] = tempArr[0];  cube[i1+1] = tempArr[1];
-		
-		tempArr = new Color[] {cube[i2], cube[i2+1]};
-		cube[i2] = cube[i3]; cube[i2+1] = cube[i3+1];
-		cube[i3] = tempArr[0];  cube[i3+1] = tempArr[1];
-		
-		Color temp = cube[i4];
-		cube[i4] = cube[i5];
-		cube[i5] = temp;
-		
-		temp = cube[i6];
-		cube[i6] = cube[i7];
-		cube[i7] = temp;
-		*/
 		swapShort(i0, i1);
 		swapShort(i2, i3);
 		
@@ -301,203 +284,181 @@ public class RubiksCubeModel {
 		return 0;
 	}
 	
-	public boolean compareCubes(RubiksCubeModel cubeToCompare) {
-		for (int i = 0; i < 6; i++) {
-			Face face = Face.values()[i];
-			if (getFace(face) != cubeToCompare.getFace(face)) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public RubiksCubeModel u() {
+	public void u() {
 		this.roll90(Face.UP.mapping);
 		this.rotateSides90(8, 16, 24, 32, 10, 18, 26, 34);
-		return this;
 	}
 	
-	public RubiksCubeModel uPrime() {
+	public void uPrime() {
 		this.roll270(Face.UP.mapping);
 		this.rotateSides90(32, 24, 16, 8, 34, 26, 18, 10);
-		return this;
 	}
 	
-	public RubiksCubeModel u2() {
+	public void u2() {
 		this.roll180(Face.UP.mapping);
 		this.rotateSides180(8, 24, 16, 32, 10, 26, 18, 34);
-		return this;
 	}
 	
-	public RubiksCubeModel l() {
+	public void l() {
 		this.roll90(Face.LEFT.mapping);
 		this.rotateSides90(6, 34, 46, 22, 0, 36, 40, 16);
-		return this;
 	}
 	
-	public RubiksCubeModel lPrime() {
+	public void lPrime() {
 		this.roll270(Face.LEFT.mapping);
 		this.rotateSides90(22, 46, 34, 6, 16, 40, 36, 0);
-		return this;
 	}
 	
-	public RubiksCubeModel l2() {
+	public void l2() {
 		this.roll180(Face.LEFT.mapping);
 		this.rotateSides180(6, 46, 34, 22, 0, 40, 36, 16);
-		return this;
 	}
 	
-	public RubiksCubeModel f() {
+	public void f() {
 		this.roll90(Face.FRONT.mapping);
 		this.rotateSides90(4, 10, 40, 30, 6, 12, 42, 24);
-		return this;
 	}
 	
-	public RubiksCubeModel fPrime() {
+	public void fPrime() {
 		this.roll270(Face.FRONT.mapping);
 		this.rotateSides90(30, 40, 10, 4, 24, 42, 12, 6);
-		return this;
 	}
 	
-	public RubiksCubeModel f2() {
+	public void f2() {
 		this.roll180(Face.FRONT.mapping);
 		this.rotateSides180(4, 40, 10, 30, 6, 42, 12, 24);
-		return this;
 	}
 	
-	public RubiksCubeModel r() {
+	public void r() {
 		this.roll90(Face.RIGHT.mapping);
 		this.rotateSides90(2, 18, 42, 38, 4, 20, 44, 32);
-		return this;
 	}
 	
-	public RubiksCubeModel rPrime() {
+	public void rPrime() {
 		this.roll270(Face.RIGHT.mapping);
 		this.rotateSides90(38, 42, 18, 2, 32, 44, 20, 4);
-		return this;
 	}
 	
-	public RubiksCubeModel r2() {
+	public void r2() {
 		this.roll180(Face.RIGHT.mapping);
 		this.rotateSides180(2, 42, 18, 38, 4, 44, 20, 32);
-		return this;
 	}
 	
-	public RubiksCubeModel b() {
+	public void b() {
 		this.roll90(Face.BACK.mapping);
 		this.rotateSides90(0, 26, 44, 14, 2, 28, 46, 8);
-		return this;
 	}
 	
-	public RubiksCubeModel bPrime() {
+	public void bPrime() {
 		this.roll270(Face.BACK.mapping);
 		this.rotateSides90(14, 44, 26, 0, 8, 46, 28, 2);
-		return this;
 	}
 	
-	public RubiksCubeModel b2() {
+	public void b2() {
 		this.roll180(Face.BACK.mapping);
 		this.rotateSides180(0, 44, 26, 14, 2, 46, 28, 8);
-		return this;
 	}
 	
-	public RubiksCubeModel d() {
+	public void d() {
 		this.roll90(Face.DOWN.mapping);
 		this.rotateSides90(12, 36, 28, 20, 14, 38, 30, 22);
-		return this;
 	}
 	
-	public RubiksCubeModel dPrime() {
+	public void dPrime() {
 		this.roll270(Face.DOWN.mapping);
 		this.rotateSides90(20, 28, 36, 12, 22, 30, 38, 14);
-		return this;
 	}
 	
-	public RubiksCubeModel d2() {
+	public void d2() {
 		this.roll180(Face.DOWN.mapping);
 		this.rotateSides180(12, 28, 36, 20, 14, 30, 38, 22);
-		return this;
 	}
 	
-	public RubiksCubeModel mid() {
+	public void mid() {
 		this.rollSlice90(1, 37, 41, 17, 5, 33, 45, 21, 0, 4, 5, 2);
-		return this;
 	}
 	
-	public RubiksCubeModel midPrime() {
+	public void midPrime() {
 		this.rollSlice90(17, 41, 37, 1, 21, 45, 33, 5, 2, 5, 4, 0);
-		return this;
 	}
 	
-	public RubiksCubeModel mid2() {
+	public void mid2() {
 		this.rollSlice180(1, 41, 37, 17, 5, 45, 33, 21, 0, 5, 4, 2);
-		return this;
 	}
 	
-	public RubiksCubeModel equatorial() {
+	public void equatorial() {
 		this.rollSlice90(15, 39, 31, 23, 11, 35, 27, 19, 1, 4, 3, 2);
-		return this;
 	}
 	
-	public RubiksCubeModel equatorialPrime() {
+	public void equatorialPrime() {
 		this.rollSlice90(23, 31, 39, 15, 19, 27, 35, 11, 2, 3, 4, 1);
-		return this;
 	}
 	
-	public RubiksCubeModel equatorial2() {
+	public void equatorial2() {
 		this.rollSlice180(15, 31, 39, 23, 11, 27, 35, 19, 1, 3, 4, 2);
-		return this;
 	}
 	
-	public RubiksCubeModel stand() {
+	public void stand() {
 		this.rollSlice90(3, 9, 47, 29, 7, 13, 43, 25, 0, 1, 5, 3);
-		return this;
 	}
 	
-	public RubiksCubeModel standPrime() {
+	public void standPrime() {
 		this.rollSlice90(29, 47, 9, 3, 25, 43, 13, 7, 3, 5, 1, 0);
-		return this;
 	}
 	
-	public RubiksCubeModel stand2() {
+	public void stand2() {
 		this.rollSlice180(3, 47, 9, 29, 7, 43, 13, 25, 0, 5, 1, 3);
-		return this;
 	}
 	
-	public RubiksCubeModel xAxis() {
-		return this.lPrime().midPrime().r();
+	public void xAxis() {
+		this.lPrime();
+		this.midPrime();
+		this.r();
 	}
 	
-	public RubiksCubeModel xAxisPrime() {
-		return this.l().mid().rPrime();
+	public void xAxisPrime() {
+		this.l();
+		this.mid();
+		this.rPrime();
 	}
 	
-	public RubiksCubeModel xAxis2() {
-		return this.xAxis().xAxis();
+	public void xAxis2() {
+		this.xAxis();
+		this.xAxis();
 	}
 	
-	public RubiksCubeModel yAxis() {
-		return this.u().dPrime().equatorialPrime();
+	public void yAxis() {
+		this.u();
+		this.dPrime();
+		this.equatorialPrime();
 	}
 	
-	public RubiksCubeModel yAxisPrime() {
-		return this.uPrime().d().equatorial();
+	public void yAxisPrime() {
+		this.uPrime();
+		this.d();
+		this.equatorial();
 	}
 	
-	public RubiksCubeModel yAxis2() {
-		return this.yAxis().yAxis();
+	public void yAxis2() {
+		this.yAxis();
+		this.yAxis();
 	}
 	
-	public RubiksCubeModel zAxis() {
-		return this.f().stand().bPrime();
+	public void zAxis() {
+		this.f();
+		this.stand();
+		this.bPrime();
 	}
 	
-	public RubiksCubeModel zAxisPrime() {
-		return this.fPrime().standPrime().b();
+	public void zAxisPrime() {
+		this.fPrime();
+		this.standPrime();
+		this.b();
 	}
 	
-	public RubiksCubeModel zAxis2() {
-		return this.zAxis().zAxis();
+	public void zAxis2() {
+		this.zAxis();
+		this.zAxis();
 	}
 	
 	private void swapShort(int i1, int i2) {
