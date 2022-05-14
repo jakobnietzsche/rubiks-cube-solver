@@ -1,10 +1,6 @@
 package controller;
 
 import model.RubiksCubeModel;
-import goals.FinalGoal;
-import goals.Goal;
-import model.RubiksCubeDefinitions.Face;
-import model.RubiksCubeDefinitions.Move;
 
 public class Driver {
 
@@ -13,8 +9,9 @@ public class Driver {
 		
 		CubeSolver testSolver = new CubeSolver(testModel);
 		testSolver.scrambleCube();
-		//testModel.displayCube();
 		testSolver.solveCube();
+		
+		
 		System.out.println(testModel.isSolved());
 		testModel.displayCube();
 	}

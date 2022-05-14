@@ -32,9 +32,33 @@ public class CubeSolver {
 		initialize();
 	}
 	
+	/*
+	private void initializeDatabase() {
+		Color[] centers = new Color[] {Color.RED, Color.BLUE, Color.WHITE,
+									   Color.GREEN, Color.YELLOW, Color.ORANGE};
+		RubiksCubeModel solvedState = new RubiksCubeModel();
+		for (int i = 0; i < 6; i++) {
+			int face = 0;
+			for (int j = 0; j < 8; j++) {
+				face = (face<<4) | centers[i].mapping;
+			}
+			
+			solvedState.cube
+		}
+	}
+	*/
+	
 	private void initializeDatabase() {
 		System.out.println("Initializing database...");
-		this.searcher.findGoal(this.permutes, model, new G3AvailableMoves());
+		RubiksCubeModel solvedState = new RubiksCubeModel();
+		solvedState.move(Move.LPRIME);
+		solvedState.move(Move.MIDPRIME);
+		solvedState.move(Move.R);
+		solvedState.move(Move.U2);
+		solvedState.move(Move.EQUATORIALPRIME);
+		solvedState.move(Move.EQUATORIALPRIME);
+		solvedState.move(Move.D2);
+		this.searcher.findGoal(this.permutes, solvedState, new G3AvailableMoves());
 		System.out.println("Finished initializing database.");
 	}
 	
@@ -81,10 +105,8 @@ public class CubeSolver {
 	public void solveCube() {
 		List<Move> allMoves = new LinkedList<>();
 	
-		for (int i = 0; i < goalList.size(); i++) {
+		for (int i = 0; i < goalList.size(); ++i) {
 			Goal currGoal = goalList.get(i);
-			System.out.println("CURR GOAL: " + currGoal.getClass().getName());
-			System.out.println("CURR MOVES: " + goalMap.get(currGoal));
 			System.out.println("GOAL STEP: " + i);
 			goalMoves = this.searcher.findGoal(currGoal, model, goalMap.get(currGoal));
 			this.processGoalMoves(currGoal, i+1, allMoves);

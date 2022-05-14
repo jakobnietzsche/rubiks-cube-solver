@@ -4,7 +4,7 @@ import java.util.Map;
 import model.RubiksCubeDefinitions.*;
 
 public class RubiksCubeModel {
-	Color[] cube;
+	public Color[] cube;
 	Color[] centers;
 	RubiksCubeMover mover;
 	private static ByteBuffer bb = ByteBuffer.allocate(Long.BYTES);
@@ -204,12 +204,17 @@ public class RubiksCubeModel {
 	}
 	
 	public boolean isSolved() {
-		return Long.toHexString(getFace(Face.FRONT)).equals("4040404040404")   &&
-			   Long.toHexString(getFace(Face.RIGHT)).equals("104040404040404") &&
-			   Long.toHexString(getFace(Face.UP)).equals("204040404040404")    &&
-			   Long.toHexString(getFace(Face.LEFT)).equals("304040404040404")  &&
-			   Long.toHexString(getFace(Face.DOWN)).equals("404040404040404")  &&
-			   Long.toHexString(getFace(Face.BACK)).equals("504040404040404");
+		Color[] solvedColors = new Color[] {Color.RED, Color.BLUE, Color.WHITE,
+											Color.GREEN, Color.YELLOW, Color.ORANGE};
+		
+		for (int f = 0; f < 6; f++) {
+			for (int i = 0; i < 8; i++) {
+				if (cube[f*8+i] != solvedColors[f]) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public byte getCornerIndex(Color[] corners) {

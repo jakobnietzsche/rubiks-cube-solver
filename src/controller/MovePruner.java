@@ -12,7 +12,7 @@ public class MovePruner {
 	public boolean prune(String move, String lastMove) {
 		char first1 = move.charAt(0);
 		char first2 = lastMove.charAt(0);
-		if (move.equals(lastMove) ||
+		if (first1 == first2 ||
 		   (first1 == 'F' && first2 == 'B') ||
 		   (first1 == 'L' && first2 == 'R') ||
 		   (first1 == 'U' && first2 == 'D')) {
