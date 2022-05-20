@@ -58,7 +58,7 @@ public class CubeSolver {
 		goalList.add(finGoal);
 	}
 	
-	public void scrambleCube() {
+	public List<Move> scrambleCube() {
 		List<Move> moves = new LinkedList<>();
 		MovePruner pruner = new MovePruner();
 		moves.add(Move.values()[rand.nextInt(17)]);
@@ -73,9 +73,10 @@ public class CubeSolver {
 		for (Move move: moves) {
 			this.model.move(move);
 		}
+		return moves;
 	}
 	
-	public void solveCube() {
+	public List<Move> solveCube() {
 		List<Move> allMoves = new LinkedList<>();
 	
 		for (int i = 0; i < goalList.size(); ++i) {
@@ -89,8 +90,7 @@ public class CubeSolver {
 		for (Move move: allMoves) {
 			System.out.print(move.name() + " ");
 		}
-		System.out.println();
-		System.out.println("Done solving.");
+		return allMoves;
 	}
 	
 	private void processGoalMoves(Goal goal, int goalNum, List<Move> allMoves) {

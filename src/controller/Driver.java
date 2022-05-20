@@ -8,7 +8,7 @@ public class Driver {
 		RubiksCubeModel testModel  = new RubiksCubeModel();
 		
 		CubeSolver testSolver = new CubeSolver(testModel);
-		testSolver.scrambleCube();
+		//testSolver.scrambleCube();
 		testSolver.solveCube();
 		
 	}
