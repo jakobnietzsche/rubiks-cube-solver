@@ -19,6 +19,11 @@
     <remote-repository>
       <option name="id" value="local-maven-repository" />
       <option name="name" value="local-maven-repository" />
+      <option name="url" value="./local-maven-repository" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="local-maven-repository" />
+      <option name="name" value="local-maven-repository" />
       <option name="url" value="file:\\\C:\Dev\rubiks-cube-solver\local-maven-repository" />
     </remote-repository>
     <remote-repository>
