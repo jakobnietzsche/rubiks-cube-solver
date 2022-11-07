@@ -40,11 +40,18 @@ private boolean displaySolve = false;
 private int index = 0;
 private List<Move> moves;
 private AnimatedMove animatedMove;
+private final int interval = 3000; // 3 seconds
+private int time; // milliseconds
+private String textToDisplay = "";
+
+private PFont lucidaSansRegular;
 
  public void setup() {
 	 animatedMove = new AnimatedMove(0, 0, 0, 0);
-	 
+	 time = millis();
   cam = new PeasyCam(this, 400);
+     lucidaSansRegular = createFont("Lucida Sans Regular", 12);
+
   int index = 0;
   for (int i = -1; i <= 1; i++) {
     for (int j = -1; j <= 1; j++) {
@@ -64,21 +71,31 @@ private AnimatedMove animatedMove;
 	  scale(50);
 	  this.solveButton.show();
 	  this.scrambleButton.show();
-	  
-	  for (int i = 0; i < cube.length; i++) {
-		  push();
-		  Cubie qb = cube[i];
-		  if (abs(qb.z) > 0 && qb.z == this.animatedMove.z) {
-			  rotateZ(animatedMove.angle);
-		  } else if (abs(qb.x) > 0 && qb.x == this.animatedMove.x) {
-			  rotateX(animatedMove.angle);
-		  } else if (abs(qb.y) > 0 && qb.y == this.animatedMove.y) {
-			  rotateY(-animatedMove.angle);
-		  }
-		  qb.show();
-		  pop();
-	  }  
+
+      if (millis() - time > interval) {
+          textToDisplay = "";
+      }
+
+      cam.beginHUD();
+      textFont(lucidaSansRegular, 20);
+      fill(0);
+      text(textToDisplay, 15, 40, 500, 200);
+      cam.endHUD();
+
+     for (Cubie qb : cube) {
+         push();
+         if (abs(qb.z) > 0 && qb.z == this.animatedMove.z) {
+             rotateZ(animatedMove.angle);
+         } else if (abs(qb.x) > 0 && qb.x == this.animatedMove.x) {
+             rotateX(animatedMove.angle);
+         } else if (abs(qb.y) > 0 && qb.y == this.animatedMove.y) {
+             rotateY(-animatedMove.angle);
+         }
+         qb.show();
+         pop();
+     }
   if (doScramble) {
+
 	  if (frameCount % 2 == 0) {
 		  if (index < this.moves.size()) {
 			  applyMove(moves.get(index));
@@ -87,6 +104,8 @@ private AnimatedMove animatedMove;
 			  doScramble = false;
 			  index = 0;
 			  this.moves.clear();
+              time = millis();
+              textToDisplay = "The cube has been scrambled!";
 		  }
 	  }
   }
@@ -99,7 +118,12 @@ private AnimatedMove animatedMove;
 		  } else {
 			  doSolve = false;
 			  index = 0;
-			  this.moves.clear();
+              time = millis();
+              textToDisplay = "The cube has been solved! Here are the moves it took to solve it: ";
+              for (Move move : moves) {
+                  textToDisplay += " " + move.name();
+              }
+              this.moves.clear();
 		  }
 	  }
   }
@@ -245,29 +269,27 @@ public void applyMove(Move move) {
 }
 
  public void turnY(int index, int direction) {
-  for (int i = 0; i < cube.length; i++) {
-	Cubie c = cube[i];
-    if (c.y == index) {
-      PMatrix2D matrix = new PMatrix2D();
-      matrix.rotate(direction*HALF_PI);
-      matrix.translate(c.x, c.z);
-      c.update(round(matrix.m02), c.y, round(matrix.m12));
-      c.turnFacesY(direction);
-    }
-  }
+     for (Cubie c : cube) {
+         if (c.y == index) {
+             PMatrix2D matrix = new PMatrix2D();
+             matrix.rotate(direction * HALF_PI);
+             matrix.translate(c.x, c.z);
+             c.update(round(matrix.m02), c.y, round(matrix.m12));
+             c.turnFacesY(direction);
+         }
+     }
 }
 
  public void turnZ(int index, int direction) {
-  for (int i = 0; i < cube.length; i++) {
-	Cubie c = cube[i];
-    if (c.z == index) {
-      PMatrix2D matrix = new PMatrix2D();
-      matrix.rotate(direction*HALF_PI);
-      matrix.translate(c.x, c.y);
-      c.update(round(matrix.m02), round(matrix.m12), c.z);
-      c.turnFacesZ(direction);
-    }
-  }
+     for (Cubie c : cube) {
+         if (c.z == index) {
+             PMatrix2D matrix = new PMatrix2D();
+             matrix.rotate(direction * HALF_PI);
+             matrix.translate(c.x, c.y);
+             c.update(round(matrix.m02), round(matrix.m12), c.z);
+             c.turnFacesZ(direction);
+         }
+     }
 }
  
  public void xAxis() {
@@ -454,7 +476,9 @@ class Button {
     fill(11, 11, 69);
     rect(width-xOffset, height-yOffset, 140, 50);
     fill(255, 255, 255);
-    text(this.buttonText, width-xOffset+25, height-yOffset+30);
+    textSize(12);
+    textFont(lucidaSansRegular);
+    text(this.buttonText, width-xOffset+10, height-yOffset+30);
     text("x: "+mouseX+" y: "+mouseY, 10, 15);
     cam.endHUD();
   }
